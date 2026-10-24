@@ -1,7 +1,8 @@
-import re, sys, requests
+import io, re, sys, requests
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 from bs4 import BeautifulSoup
+from pypdf import PdfReader
 
 # ---------- CONFIG ----------
 OWN = {"Bionics Buccinasco", "C R A C BIONICS"}
@@ -9,11 +10,14 @@ UISP_TEAM = "Bionics Buccinasco"
 UISP_TEAMS = ["Bionics Buccinasco", "EDILPLUS Basket Corsico U 13", "Centro Asteria U13",
               "U13 Starsteam BLU", "STARSTEAM U13 M", "NCS CORSICO U13"]
 UISP_BASE = "https://gestionalepallacanestro.uisp.it/milano/70/130"
-FIP_BASE = "https://fip.it/risultati/"
-FIP_PARAMS = {"group": "campionati-regionali", "regione_codice": "LO", "comitato_codice": "RLO",
-              "sesso": "M", "codice_campionato": "U13S/M", "codice_fase": "1",
-              "codice_girone": "85961"}
+
+FIP_PDF = "https://backend.fip.it/api/v1/calendario.pdf"
+FIP_PARAMS = {"comitato_codice": "RLO", "regione_codice": "LO", "sesso": "M",
+              "codice_campionato": "U13S/M", "codice_fase": "1", "codice_girone": "85961",
+              "codice_andata_ritorno": "1", "giornata": "1"}
 FIP_TEAM = "C R A C BIONICS"
+FIP_TEAMS = ["URANIA MILANO", "ARMANI OLIMPIA MILANO", "C R A C BIONICS",
+             "CITTA' DI OPERA", "EBRO MILANO"]
 # ----------------------------
 
 MESI = {m: i + 1 for i, m in enumerate(
@@ -23,9 +27,11 @@ HDR = {"User-Agent": "Mozilla/5.0 (calendario-basket)"}
 
 
 def titolo(label, home, away):
-    h = "Bionics" if home in OWN else home
-    a = "Bionics" if away in OWN else away
-    return f"🏀 [{label}] {h} - {a}"
+    def nome(n):
+        if n in OWN:
+            return "Bionics"
+        return n.title() if label == "FIP" else n
+    return f"🏀 [{label}] {nome(home)} - {nome(away)}"
 
 
 def scrape_uisp():
@@ -56,22 +62,21 @@ def scrape_uisp():
 
 
 def scrape_fip():
+    r = requests.get(FIP_PDF, params=FIP_PARAMS, headers=HDR, timeout=60)
+    r.raise_for_status()
+    text = " ".join(p.extract_text() or "" for p in PdfReader(io.BytesIO(r.content)).pages)
+    text = re.sub(r"\s+", " ", text)
+    t = "|".join(re.escape(x) for x in sorted(FIP_TEAMS, key=len, reverse=True))
     rx = re.compile(
-        r"(\d{1,2}) ([A-Za-zà]+) (\d{4}) (\d{2}):(\d{2}) (\d{6}) (.*?)"
-        r"Squadra di casa (.+?) Squadra ospite (.+?) Campo di gioco (.+?) 1\S{0,2} Arbitro")
+        rf"(\d{{6}}) ({t}) ({t}) (\d{{2}})/(\d{{2}})/(\d{{2}}) - (\d{{2}}):(\d{{2}}) (.+?)"
+        r"(?= \d{6} | \d Giornata| pag\. \d+ di \d+|$)")
     out = {}
-    for ar in ("1", "0"):
-        for g in range(1, 6):
-            p = dict(FIP_PARAMS, codice_ar=ar, giornata=str(g))
-            r = requests.get(FIP_BASE, params=p, headers=HDR, timeout=30)
-            r.raise_for_status()
-            text = re.sub(r"\s+", " ", BeautifulSoup(r.text, "html.parser").get_text(" "))
-            for m in rx.finditer(text):
-                d, mese, y, hh, mm, num, _, home, away, venue = m.groups()
-                if FIP_TEAM not in (home, away) or mese.lower() not in MESI:
-                    continue
-                start = datetime(int(y), MESI[mese.lower()], int(d), int(hh), int(mm), tzinfo=TZ)
-                out[f"fip-{num}@basket-u13"] = (start, titolo("FIP", home, away), venue, r.url)
+    for m in rx.finditer(text):
+        num, home, away, d, mo, y, hh, mm, venue = m.groups()
+        if FIP_TEAM not in (home, away):
+            continue
+        start = datetime(2000 + int(y), int(mo), int(d), int(hh), int(mm), tzinfo=TZ)
+        out[f"fip-{num}@basket-u13"] = (start, titolo("FIP", home, away), venue.strip(), r.url)
     return out
 
 
