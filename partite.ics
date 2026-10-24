@@ -8,12 +8,12 @@ REFRESH-INTERVAL;VALUE=DURATION:PT3H
 X-PUBLISHED-TTL:PT3H
 BEGIN:VEVENT
 UID:fip-013333@basket-u13
-DTSTAMP:20261024T182259Z
+DTSTAMP:20261024T192733Z
 DTSTART:20261018T090000Z
 DTEND:20261018T103000Z
-SUMMARY:🏀 [FIP] CITTA' DI OPERA - Bionics
-LOCATION:nuova tensostruttura\, via Lombardia s.n.c. 20073 OPERA ( MI)
-URL:https://fip.it/risultati/?group=campionati-regionali&regione_codice=LO&comitato_codice=RLO&sesso=M&codice_campionato=U13S%2FM&codice_fase=1&codice_girone=85961&codice_ar=1&giornata=1
+SUMMARY:🏀 [FIP] Citta' Di Opera - Bionics
+LOCATION:nuova tensostruttura - via Lombardia s.n.c. OPERA (MI)
+URL:https://backend.fip.it/api/v1/calendario.pdf?comitato_codice=RLO&regione_codice=LO&sesso=M&codice_campionato=U13S%2FM&codice_fase=1&codice_girone=85961&codice_andata_ritorno=1&giornata=1
 BEGIN:VALARM
 TRIGGER:-PT90M
 ACTION:DISPLAY
@@ -22,12 +22,26 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:uisp-6239@basket-u13
-DTSTAMP:20261024T182259Z
+DTSTAMP:20261024T192733Z
 DTSTART:20261024T130000Z
 DTEND:20261024T143000Z
 SUMMARY:🏀 [UISP] NCS CORSICO U13 - Bionics
 LOCATION:Corsico - Via Don Flaminio Tornaghi\, 4 (SCUOLA MEDIA MASCHERPA)
-URL:/milano/70/130/1/1/6239
+URL:https://gestionalepallacanestro.uisp.it/milano/70/130/1/1/6239
+BEGIN:VALARM
+TRIGGER:-PT90M
+ACTION:DISPLAY
+DESCRIPTION:Partita
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:fip-013338@basket-u13
+DTSTAMP:20261024T192733Z
+DTSTART:20261030T173000Z
+DTEND:20261030T190000Z
+SUMMARY:🏀 [FIP] Bionics - Armani Olimpia Milano
+LOCATION:Palestra Scuole Medie L.Conti - Via Tiziano 7 BUCCINASCO (MI)
+URL:https://backend.fip.it/api/v1/calendario.pdf?comitato_codice=RLO&regione_codice=LO&sesso=M&codice_campionato=U13S%2FM&codice_fase=1&codice_girone=85961&codice_andata_ritorno=1&giornata=1
 BEGIN:VALARM
 TRIGGER:-PT90M
 ACTION:DISPLAY
@@ -36,12 +50,40 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:uisp-6242@basket-u13
-DTSTAMP:20261024T182259Z
+DTSTAMP:20261024T192733Z
 DTSTART:20261031T163000Z
 DTEND:20261031T180000Z
 SUMMARY:🏀 [UISP] Bionics - STARSTEAM U13 M
 LOCATION:Buccinasco - Via Tiziano\, 7 (PALESTRA COMUNALE)
-URL:/milano/70/130/1/2/6242
+URL:https://gestionalepallacanestro.uisp.it/milano/70/130/1/2/6242
+BEGIN:VALARM
+TRIGGER:-PT90M
+ACTION:DISPLAY
+DESCRIPTION:Partita
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:fip-013339@basket-u13
+DTSTAMP:20261024T192733Z
+DTSTART:20261106T173000Z
+DTEND:20261106T190000Z
+SUMMARY:🏀 [FIP] Bionics - Urania Milano
+LOCATION:Palestra Scuole Medie L.Conti - Via Tiziano 7 BUCCINASCO (MI)
+URL:https://backend.fip.it/api/v1/calendario.pdf?comitato_codice=RLO&regione_codice=LO&sesso=M&codice_campionato=U13S%2FM&codice_fase=1&codice_girone=85961&codice_andata_ritorno=1&giornata=1
+BEGIN:VALARM
+TRIGGER:-PT90M
+ACTION:DISPLAY
+DESCRIPTION:Partita
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:fip-013341@basket-u13
+DTSTAMP:20261024T192733Z
+DTSTART:20261114T163000Z
+DTEND:20261114T180000Z
+SUMMARY:🏀 [FIP] Bionics - Ebro Milano
+LOCATION:Palestra Scuole Medie L.Conti - Via Tiziano 7 BUCCINASCO (MI)
+URL:https://backend.fip.it/api/v1/calendario.pdf?comitato_codice=RLO&regione_codice=LO&sesso=M&codice_campionato=U13S%2FM&codice_fase=1&codice_girone=85961&codice_andata_ritorno=1&giornata=1
 BEGIN:VALARM
 TRIGGER:-PT90M
 ACTION:DISPLAY
@@ -50,12 +92,40 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:uisp-6246@basket-u13
-DTSTAMP:20261024T182259Z
+DTSTAMP:20261024T192733Z
 DTSTART:20261115T103000Z
 DTEND:20261115T120000Z
 SUMMARY:🏀 [UISP] EDILPLUS Basket Corsico U 13 - Bionics
 LOCATION:Corsico - Via Giuseppe Verdi\, 2 (PALESTRA COMUNALE)
-URL:/milano/70/130/1/4/6246
+URL:https://gestionalepallacanestro.uisp.it/milano/70/130/1/4/6246
+BEGIN:VALARM
+TRIGGER:-PT90M
+ACTION:DISPLAY
+DESCRIPTION:Partita
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:fip-013344@basket-u13
+DTSTAMP:20261024T192733Z
+DTSTART:20261121T163000Z
+DTEND:20261121T180000Z
+SUMMARY:🏀 [FIP] Bionics - Citta' Di Opera
+LOCATION:Palestra Scuole Medie L.Conti - Via Tiziano 7 BUCCINASCO (MI)
+URL:https://backend.fip.it/api/v1/calendario.pdf?comitato_codice=RLO&regione_codice=LO&sesso=M&codice_campionato=U13S%2FM&codice_fase=1&codice_girone=85961&codice_andata_ritorno=1&giornata=1
+BEGIN:VALARM
+TRIGGER:-PT90M
+ACTION:DISPLAY
+DESCRIPTION:Partita
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:fip-013348@basket-u13
+DTSTAMP:20261024T192733Z
+DTSTART:20261202T170000Z
+DTEND:20261202T183000Z
+SUMMARY:🏀 [FIP] Armani Olimpia Milano - Bionics
+LOCATION:SPORT VILLAGE ASSAGO -Palestra - via Di vittorio 1 ASSAGO (MI)
+URL:https://backend.fip.it/api/v1/calendario.pdf?comitato_codice=RLO&regione_codice=LO&sesso=M&codice_campionato=U13S%2FM&codice_fase=1&codice_girone=85961&codice_andata_ritorno=1&giornata=1
 BEGIN:VALARM
 TRIGGER:-PT90M
 ACTION:DISPLAY
@@ -64,12 +134,40 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:uisp-6252@basket-u13
-DTSTAMP:20261024T182259Z
+DTSTAMP:20261024T192733Z
 DTSTART:20261202T174500Z
 DTEND:20261202T191500Z
 SUMMARY:🏀 [UISP] STARSTEAM U13 M - Bionics
 LOCATION:Cesano Boscone - Via Amerigo Vespucci\, 7 (PALESTRA COMUNALE)
-URL:/milano/70/130/2/2/6252
+URL:https://gestionalepallacanestro.uisp.it/milano/70/130/2/2/6252
+BEGIN:VALARM
+TRIGGER:-PT90M
+ACTION:DISPLAY
+DESCRIPTION:Partita
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:fip-013350@basket-u13
+DTSTAMP:20261024T192733Z
+DTSTART:20261212T163000Z
+DTEND:20261212T180000Z
+SUMMARY:🏀 [FIP] Bionics - Urania Milano
+LOCATION:Palestra Scuole Medie L.Conti - Via Tiziano 7 BUCCINASCO (MI)
+URL:https://backend.fip.it/api/v1/calendario.pdf?comitato_codice=RLO&regione_codice=LO&sesso=M&codice_campionato=U13S%2FM&codice_fase=1&codice_girone=85961&codice_andata_ritorno=1&giornata=1
+BEGIN:VALARM
+TRIGGER:-PT90M
+ACTION:DISPLAY
+DESCRIPTION:Partita
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:fip-013352@basket-u13
+DTSTAMP:20261024T192733Z
+DTSTART:20261220T170000Z
+DTEND:20261220T183000Z
+SUMMARY:🏀 [FIP] Ebro Milano - Bionics
+LOCATION:Istituto Agnesi - Via C. Bazzi 18 MILANO (MI)
+URL:https://backend.fip.it/api/v1/calendario.pdf?comitato_codice=RLO&regione_codice=LO&sesso=M&codice_campionato=U13S%2FM&codice_fase=1&codice_girone=85961&codice_andata_ritorno=1&giornata=1
 BEGIN:VALARM
 TRIGGER:-PT90M
 ACTION:DISPLAY
@@ -78,12 +176,12 @@ END:VALARM
 END:VEVENT
 BEGIN:VEVENT
 UID:uisp-6257@basket-u13
-DTSTAMP:20261024T182259Z
+DTSTAMP:20261024T192733Z
 DTSTART:20270109T140000Z
 DTEND:20270109T153000Z
 SUMMARY:🏀 [UISP] Centro Asteria U13 - Bionics
 LOCATION:Milano - Piazza Francesco Carrara\, 17 (CENTRO ASTERIA)
-URL:/milano/70/130/2/5/6257
+URL:https://gestionalepallacanestro.uisp.it/milano/70/130/2/5/6257
 BEGIN:VALARM
 TRIGGER:-PT90M
 ACTION:DISPLAY
