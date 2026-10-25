@@ -4,13 +4,21 @@
 <title>Calendario partite U13</title>
 <style>
  body{font-family:system-ui;max-width:420px;margin:40px auto;padding:0 16px;text-align:center}
- a.b{display:block;margin:12px 0;padding:16px;border-radius:12px;background:#1a73e8;color:#fff;text-decoration:none;font-size:18px}
+ .wrap{display:flex;flex-direction:column}
+ a.b{display:block;margin:10px 0;padding:16px;border-radius:12px;background:#1a73e8;color:#fff;text-decoration:none;font-size:18px}
  a.b.alt{background:#111}
+ a.b span{display:block;font-size:13px;opacity:.8;margin-top:4px}
+ body.ios #apple{order:-1}
  small{color:#666;display:block;margin-top:16px}
 </style></head><body>
 <h2>🏀 Calendario partite U13</h2>
 <p>Un tap e le partite compaiono nel tuo calendario. Orari e cambi si aggiornano da soli.</p>
-<a class="b" href="https://calendar.google.com/calendar/u/0?cid=OTg3Y2UzZDNlNDBiMTMyMjRkZmZlZDUzNWM4M2I4OGIyMDU1ZDEwOGY0YmQ2ZGRhOGVmNjMxOGYwZTgyMzVkYUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t">Aggiungi a Google Calendar<br><small style="color:#dce8fb;margin-top:4px">Android e iPhone con app Google Calendar</small></a>
-<a class="b alt" href="webcal://manuvella.github.io/bionics-u13/partite.ics">Calendario Apple (iPhone / Mac)<br><small style="color:#bbb;margin-top:4px">Solo se usi l'app Calendario di Apple</small></a>
+<div class="wrap">
+ <a class="b" id="google" href="https://calendar.google.com/calendar/u/0?cid=OTg3Y2UzZDNlNDBiMTMyMjRkZmZlZDUzNWM4M2I4OGIyMDU1ZDEwOGY0YmQ2ZGRhOGVmNjMxOGYwZTgyMzVkYUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t">Google Calendar<span>Android (anche Samsung) e iPhone con app Google</span></a>
+ <a class="b alt" id="apple" href="webcal://manuvella.github.io/bionics-u13/partite.ics">Calendario Apple<span>iPhone, iPad e Mac con l'app Calendario</span></a>
+</div>
 <small>Iscriviti una sola volta, altrimenti vedi le partite doppie.</small>
+<script>
+ if (/iPhone|iPad|iPod/.test(navigator.userAgent)) document.body.classList.add("ios");
+</script>
 </body></html>
