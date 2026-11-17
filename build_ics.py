@@ -1,4 +1,4 @@
-import io, re, sys, requests
+import io, re, sys, time, requests
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 from bs4 import BeautifulSoup
@@ -19,12 +19,32 @@ FIP_PARAMS = {"comitato_codice": "RLO", "regione_codice": "LO", "sesso": "M",
 FIP_TEAM = "C R A C BIONICS"
 FIP_TEAMS = ["URANIA MILANO", "ARMANI OLIMPIA MILANO", "C R A C BIONICS",
              "CITTA' DI OPERA", "EBRO MILANO"]
+
+# Inizio stagione: una data PRIMA di questa è considerata un errore di battitura sull'anno (es. 2026 al posto di 2027)
+SEASON_START = datetime(2026, 8, 1, tzinfo=ZoneInfo("Europe/Rome"))
 # ----------------------------
 
 MESI = {m: i + 1 for i, m in enumerate(
     "gennaio febbraio marzo aprile maggio giugno luglio agosto settembre ottobre novembre dicembre".split())}
+GIORNI = {"lun": 0, "mar": 1, "mer": 2, "gio": 3, "ven": 4, "sab": 5, "dom": 6}
 TZ, UTC = ZoneInfo("Europe/Rome"), ZoneInfo("UTC")
 HDR = {"User-Agent": "Mozilla/5.0 (calendario-basket)"}
+
+
+def get(url, **kw):
+    """GET con 4 tentativi e pause crescenti (10s, 20s, 30s)."""
+    last = None
+    for i in range(4):
+        try:
+            r = requests.get(url, headers=HDR, timeout=(15, 45), **kw)
+            r.raise_for_status()
+            return r
+        except requests.RequestException as e:
+            last = e
+            print(f"Tentativo {i + 1}/4 fallito ({e.__class__.__name__})")
+            if i < 3:
+                time.sleep(10 * (i + 1))
+    raise last
 
 
 def titolo(label, home, away):
@@ -36,12 +56,11 @@ def titolo(label, home, away):
 
 
 def scrape_uisp():
-    rx = re.compile(r"(\d{1,2}) ([a-zà]+) (\d{4}) \(\w+\) (\d{2}):(\d{2}) (.+)$", re.I)
+    rx = re.compile(r"(\d{1,2}) ([a-zà]+) (\d{4}) \((\w+)\) (\d{2}):(\d{2}) (.+)$", re.I)
     out = {}
     for rnd in (1, 2):
         for n in range(1, 6):
-            r = requests.get(UISP_BASE, params={"round": rnd, "roundnumber": n}, headers=HDR, timeout=30)
-            r.raise_for_status()
+            r = get(UISP_BASE, params={"round": rnd, "roundnumber": n})
             for a in BeautifulSoup(r.text, "html.parser").select("a[href*='/130/']"):
                 txt = " ".join(a.get_text(" ").split())
                 if UISP_TEAM not in txt:
@@ -49,10 +68,17 @@ def scrape_uisp():
                 m = rx.search(txt)
                 if not m:
                     continue
-                g, mese, y, hh, mm, venue = m.groups()
+                g, mese, y, wd, hh, mm, venue = m.groups()
                 if mese.lower() not in MESI:
                     continue
                 start = datetime(int(y), MESI[mese.lower()], int(g), int(hh), int(mm), tzinfo=TZ)
+                if start < SEASON_START:
+                    # Errore di battitura sull'anno nel sito UISP: assumo l'anno successivo
+                    fixed = start.replace(year=start.year + 1)
+                    ok = GIORNI.get(wd.lower()[:3]) == fixed.weekday()
+                    print(f"ATTENZIONE: data UISP {start:%d/%m/%Y} prima dell'inizio stagione, corretta in "
+                          f"{fixed:%d/%m/%Y} (giorno della settimana {'coerente' if ok else 'NON coerente'})")
+                    start = fixed
                 pre = txt[:m.start()]
                 opp = next((t for t in UISP_TEAMS if t != UISP_TEAM and t in pre), "?")
                 casa = opp == "?" or pre.find(UISP_TEAM) < pre.find(opp)
@@ -66,8 +92,7 @@ def scrape_uisp():
 
 
 def scrape_fip():
-    r = requests.get(FIP_PDF, params=FIP_PARAMS, headers=HDR, timeout=60)
-    r.raise_for_status()
+    r = get(FIP_PDF, params=FIP_PARAMS)
     text = " ".join(p.extract_text() or "" for p in PdfReader(io.BytesIO(r.content)).pages)
     text = re.sub(r"\s+", " ", text)
     t = "|".join(re.escape(x) for x in sorted(FIP_TEAMS, key=len, reverse=True))
